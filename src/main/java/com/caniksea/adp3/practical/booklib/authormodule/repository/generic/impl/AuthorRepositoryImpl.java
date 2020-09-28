@@ -3,6 +3,9 @@ package com.caniksea.adp3.practical.booklib.authormodule.repository.generic.impl
 import com.caniksea.adp3.practical.booklib.authormodule.domain.generic.Author;
 import com.caniksea.adp3.practical.booklib.authormodule.repository.generic.AuthorRepository;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Instructions
  *  > Make sure you have read the instructions on IRepository.java before attempting the tasks below.
@@ -19,23 +22,64 @@ import com.caniksea.adp3.practical.booklib.authormodule.repository.generic.Autho
  */
 public class AuthorRepositoryImpl implements AuthorRepository {
 
+    private static AuthorRepository repository = null;
+    private Set<Author> authorDB;
+
+    private AuthorRepositoryImpl(){
+
+        this.authorDB = new HashSet<>();
+    }
+
+public static AuthorRepository getRepository(){
+
+    if(repository == null) {
+        repository = new AuthorRepositoryImpl();
+    }
+    return repository;
+}
+
+  @Override
+  public Set<Author>getAll(){return this.authorDB;}
+
+
     @Override
     public Author create(Author author) {
-        throw new UnsupportedOperationException();
+
+        this.authorDB.add(author);
+        return author;
     }
 
     @Override
     public Author update(Author author) {
-        throw new UnsupportedOperationException();
+         boolean deleteAuthor = delete(author.getId());
+        if (deleteAuthor){
+            this.authorDB.add(author);
+             return author;
+        }
+       return null;
     }
 
     @Override
     public Author read(String s) {
-        throw new UnsupportedOperationException();
-    }
+        for(Author author : this.authorDB)
+        {
+            if(author.getId().equalsIgnoreCase(authorDB))
+            {
+                return author;
+            }
+        }
+        return null;    }
 
     @Override
     public void delete(String s) {
-        throw new UnsupportedOperationException();
+
+        Author author = read(s);
+        if(author != null)
+        {
+            this.authorDB.remove(author);
+           return true;
+        }
+        return false;
+
     }
 }

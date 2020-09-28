@@ -1,6 +1,8 @@
 package com.caniksea.adp3.practical.booklib.authormodule.factory.generic;
 
 import com.caniksea.adp3.practical.booklib.authormodule.domain.generic.Author;
+import com.caniksea.adp3.practical.booklib.authormodule.util.GenericHelper;
+import com.caniksea.adp3.practical.booklib.authormodule.util.StringHelper;
 
 public class AuthorFactory {
 
@@ -17,6 +19,14 @@ public class AuthorFactory {
      * @return
      */
     public static Author buildAuthor(String firstName, String lastName) { // DO NOT MODIFY THIS LINE
-        throw new UnsupportedOperationException();
+
+        String id = GenericHelper.generateRandom();
+
+        Author author = new Author.Builder()
+                .setId(id)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .build();
+                return author;
     }
 }
